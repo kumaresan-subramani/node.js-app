@@ -1,4 +1,4 @@
-module.exports = function (repo, branch, version, callback, type, platform) {
+module.exports = function (options, callback) {
 
     var nodemailer = require('nodemailer');
     //Sendmail
@@ -13,15 +13,8 @@ module.exports = function (repo, branch, version, callback, type, platform) {
             ciphers: 'SSLv3'
         }
     });
-    var message = {
-        "Releasenotes": `${repo} - ${type} Build started form ${branch} at version ${version}`,
-        "Docs": `${platform} - ${type} Documentation Build started form ${branch}`,
-        "Api": `${platform} - ${type} API Build started form ${branch}`,
-        "Patch": `${repo} - ${type} Build started form ${branch} at version ${version}`,
-        "Es-build": `Es-build started form ${branch} at version ${version}`
-    }
     var mailOptions = {
-        from: 'webtesting@syncfusion.com',
+        from: 'sales@klartdigi.com',
         to: 'kumaresan.subramani@syncfusion.com',
         subject: 'mother fucker',
         text: 'Dont mes with me you asshole'

@@ -206,46 +206,6 @@ app.post("/api/checkss", function (req, res) {
     });
 });
 
-app.post("/api/check", function (req, res) {
-  var strdat = "";
-
-  req.on("data", function (chunk) {
-    strdat += chunk;
-  });
-  res.send({
-    data: options 
-  });
-
-  req.on("end", function () {
-    var data = JSON.parse(strdat);
-    var key = '7rnFly';
-    var salt = 'pjVQAWpA';
-    //generate hash with mandatory parameters and udf5
-    var cryp = crypto.createHash("sha512");
-    var text =
-      key +
-      "|" +
-      data.txnid +
-      "|" +
-      data.amount +
-      "|" +
-      data.productinfo +
-      "|" +
-      data.firstname +
-      "|" +
-      data.email +
-      "|||||" +
-      'dataudf5' +
-      "||||||" +
-      salt;
-    cryp.update(text);
-    var hash = cryp.digest("hex");
-    res.setHeader("Content-Type", "text/json");
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.end(JSON.stringify(hash));
-  });
-});
-
 app.post('/api/login', (req, res) => {
   debugger
   res.header("Access-Control-Allow-Origin", "*");
@@ -283,8 +243,11 @@ app.post('/api/login', (req, res) => {
 
 app.post('/api/send', function (req, res) {
 
-  var reqdata = req.body.values;
-  var repo = reqdata && reqdata.repo;
+  var cusName = req.body.values;
+  var cusMobileNo = reqdata && reqdata.repo;
+  var cusMail = '';
+  var regarding = '';
+  var content = '';
   debugger
   mail('repo', 'reqdata.branchDoc', 'reqdata.version', function (error, info) {
     res.send({
@@ -293,115 +256,7 @@ app.post('/api/send', function (req, res) {
     });
   }, 'reqdata.release_Type', 'reqdata.selectPlatform');
 
-  // if (reqdata && reqdata.release_Type === "main" && repo === 'Releasenotes') {
-  //   mainreleaseNotes(reqdata.branch_release, reqdata.version, function (err, data) {
-  //     mail(repo, reqdata.branchDoc, reqdata.version, function (error, info) {
-  //       res.send({
-  //         status: 'build started',
-  //         jobName: data.jobName
-  //       });
-  //     }, reqdata.release_Type, reqdata.selectPlatform);
-  //   });
-  // } else if (reqdata && reqdata.release_Type === "dummy" && repo === 'Releasenotes') {
-  //   dummyReleaseNotes(reqdata.branch_release, reqdata.version, function (err, data) {
-  //     mail(repo, reqdata.branchDoc, reqdata.version, function (error, info) {
-  //       res.send({
-  //         status: 'build started',
-  //         jobName: data.jobName
-  //       });
-  //     }, reqdata.release_Type, reqdata.selectPlatform);
-  //   });
-  // } else if (reqdata && reqdata.releaseTypeDoc === "main" && repo === 'Docs') {
-  //   mainDocs(reqdata.branchDoc, reqdata.selectPlatform, function (err, data) {
-  //     mail(repo, reqdata.branchDoc, reqdata.versionES, function (error, info) {
-  //       res.send({
-  //         status: 'build started',
-  //         jobName: data.jobName
-  //       });
-  //     }, reqdata.releaseTypeDoc, reqdata.selectPlatform);
-  //   });
-  // } else if (reqdata && reqdata.releaseTypeDoc === "dummy" && repo === 'Docs') {
-  //   dummyDocs(reqdata.branchDoc, reqdata.selectPlatform, function (err, data) {
-  //     mail(repo, reqdata.branchDoc, reqdata.versionES, function (error, info) {
-  //       res.send({
-  //         status: 'build started',
-  //         jobName: data.jobName
-  //       });
-  //     }, reqdata.releaseTypeDoc, reqdata.selectPlatform);
-  //   });
-  // } else if (repo === 'Es-build') {
-  //   esBuild(reqdata.branchES, reqdata.versionES, function (err, data) {
-  //     if (err) {
-  //       res.send(err.message);
-  //     } else {
-  //       mail(repo, reqdata.branchES, reqdata.versionES, function (error, info) {
-  //         res.send({
-  //           status: 'build started',
-  //           jobName: data.jobName
-  //         });
-  //       }, reqdata.releaseTypeapi, reqdata.selectPlatApi);
-  //     }
-  //   });
-  // } else if (reqdata && reqdata.releaseTypeapi === "main" && repo === 'Api') {
-  //   mainApi(reqdata.branchapi, reqdata.selectPlatApi, function (err, data) {
-  //     mail(repo, reqdata.branchapi, reqdata.versionES, function (error, info) {
-  //       res.send({
-  //         status: 'build started',
-  //         jobName: data.jobName
-  //       });
-  //     }, reqdata.releaseTypeapi, reqdata.selectPlatApi);
-  //   });
-  // } else if (reqdata && reqdata.releaseTypeapi === "dummy" && repo === 'Api') {
-  //   dummyApi(reqdata.branchapi, reqdata.selectPlatApi, function (err, data) {
-  //     mail(repo, reqdata.branchapi, reqdata.versionES, function (error, info) {
-  //       res.send({
-  //         status: 'build started',
-  //         jobName: data.jobName
-  //       });
-  //     }, reqdata.releaseTypeapi, reqdata.selectPlatApi);
-  //   });
-  // } else if (reqdata && reqdata.releaseTypePatch === "main" && repo === 'Patch') {
-  //   patchRealease(reqdata.branchPatch, reqdata.versionPatch, reqdata.changeLog, function (err, data) {
-  //     mail(repo, reqdata.branchPatch, reqdata.versionPatch, function (error, info) {
-  //       res.send({
-  //         status: 'build started',
-  //         jobName: data.jobName
-  //       });
-  //     }, reqdata.releaseTypeapi, reqdata.selectPlatApi);
-  //   });
-  // } else if (reqdata && reqdata.releaseTypePatch === "dummy" && repo === 'Patch') {
-  //   dummyPatchRealease(reqdata.branchPatch, reqdata.versionPatch, reqdata.changeLog, function (err, data) {
-  //     mail(repo, reqdata.branchPatch, reqdata.versionPatch, function (error, info) {
-  //       res.send({
-  //         status: 'build started',
-  //         jobName: data.jobName
-  //       });
-  //     }, reqdata.releaseTypeapi, reqdata.selectPlatApi);
-  //   });
-  // } else {
-  //   res.send('Please provide valid type')
-  // }
 
-});
-
-app.post('/api/buildinfo', function (req, res) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  var job = req.body.values.jobName;
-  var JENKINSUSER = 'ajithr';
-  var JENKINSTOKEN = 'd1eaeaf44a76055d1527332070d16343';
-  var jenkinsUrl = `http://${JENKINSUSER}:${JENKINSTOKEN}@jenkins.syncfusion.com:8080`;
-  buildInfo(job, function (err, data) {
-    if (data) {
-      var result = shelljs.exec(`curl -X POST  ${data.url}/wfapi/ --user ${JENKINSUSER}:${JENKINSTOKEN}`);
-      var progdata = JSON.parse(result.stdout);
-      res.send(err ? err : {
-        data: progdata
-      });
-    } else {
-      res.send('wait for next execution');
-    }
-  });
 });
 
 app.listen(3007, function () {

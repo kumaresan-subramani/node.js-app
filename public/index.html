@@ -12,13 +12,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 <script>
     var options = {
-        method: 'GET',
-        url: 'https://movie-database-imdb-alternative.p.rapidapi.com/',
-        params: { s: 'Avengers Endgame', page: '1', r: 'json' },
-        headers: {
-            'x-rapidapi-key': '63c950db66msh7da1c0dad9a13a9p1cea72jsna4286818ee2a',
-            'x-rapidapi-host': 'movie-database-imdb-alternative.p.rapidapi.com'
-        }
+        method: 'POST',
+        url: 'http://localhost:3007/api/send'
     };
     function send() {
         debugger
@@ -27,7 +22,7 @@
         }).catch(function (error) {
             console.error(error);
         });
-        // window.axios.post('/send', buildData).then(console.log).catch(console.log)
+        window.axios.post('http://localhost:3007/api/send', 'buildData').then(console.log).catch(console.log)
     }
 </script>
 
