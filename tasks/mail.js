@@ -15,9 +15,9 @@ module.exports = function (options, callback) {
     });
     var mailOptions = {
         from: 'sales@klartdigi.com',
-        to: 'kumaresan.subramani@syncfusion.com',
-        subject: 'mother fucker',
-        text: 'Dont mes with me you asshole'
+        to: options.cusMail,
+        subject: options.regarding,
+        text: options.content
     };
     transporter.sendMail(mailOptions, callback);
 }

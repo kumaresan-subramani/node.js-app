@@ -14,11 +14,11 @@ app.post('/api/send', function (req, res) {
 
   var cusName = req.body.values;
   var options = {
-    'cusName' : '',
-    'cusMobileNo': '',
-    'cusMail' : '',
-    'regarding': '',
-    'content': ''
+    'cusName' : req.body.cusName,
+    'cusMobileNo': req.body.cusMobileNo,
+    'cusMail' : req.body.cusMail,
+    'regarding': req.body.regarding,
+    'content': req.body.content
   }
   debugger
   mail(options, function (error, info) {
@@ -26,7 +26,6 @@ app.post('/api/send', function (req, res) {
       status: 'mail sent'
     });
   });
-
 });
 
 app.listen(3007, function () {

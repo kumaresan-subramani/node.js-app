@@ -11,18 +11,21 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 <script>
-    var options = {
-        method: 'POST',
-        url: 'http://localhost:3007/api/send'
-    };
+     var options = {
+      'cusName' : 'test1',
+      'cusMobileNo': 'test1',
+      'cusMail' : 'test1',
+      'regarding': 'test1',
+      'content': 'test1'
+      };
     function send() {
         debugger
-        axios.request(options).then(function (response) {
-            console.log(response.data);
-        }).catch(function (error) {
-            console.error(error);
-        });
-        window.axios.post('http://localhost:3007/api/send', 'buildData').then(console.log).catch(console.log)
+        // axios.request(options).then(function (response) {
+        //     console.log(response.data);
+        // }).catch(function (error) {
+        //     console.error(error);
+        // });
+        window.axios.post('http://localhost:3007/api/send', options).then(console.log).catch(console.log)
     }
 </script>
 
