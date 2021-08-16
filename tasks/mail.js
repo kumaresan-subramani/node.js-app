@@ -6,8 +6,8 @@ module.exports = function (options, callback) {
         host: "smtp-mail.outlook.com",
         timeout: 50000,
         auth: {
-            user: 'webtesting@syncfusion.com',
-            pass: 'WDT_Testing'
+            user: '**',
+            pass: '**'
         },
         tls: {
             ciphers: 'SSLv3'
